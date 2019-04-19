@@ -29,7 +29,7 @@ public class SaveListOfItemsSales {
 
 	@Transactional
 	@Valid
-	public ResponseEntity<List<Sales>> saveAllList(SalesRequest listSales) {
+	public ResponseEntity<?> saveAllList(SalesRequest listSales) {
 		List<Sales> response = new ArrayList<>();
 		try {
 			log.info("Save list in dataBase: " + listSales.toString());

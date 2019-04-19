@@ -68,7 +68,7 @@ public class SalesController {
 
 	@PostMapping(path = "/saveList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ApiOperation(value = "Save list of sales item", response = Sales[].class)
-	public ResponseEntity<List<Sales>> saveListItems(@Valid @RequestBody SalesRequest listItemsSales)
+	public ResponseEntity<?> saveListItems(@Valid @RequestBody SalesRequest listItemsSales)
 			throws URISyntaxException {
 		log.info("Request save items: " + listItemsSales.toString());
 		return this.saveListOfItemsSales.saveAllList(listItemsSales);

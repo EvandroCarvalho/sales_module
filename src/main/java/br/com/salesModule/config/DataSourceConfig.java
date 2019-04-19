@@ -9,7 +9,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 @Configuration
-@ComponentScan(basePackages = "com.heroku.example")
+@ComponentScan
 public class DataSourceConfig {
 
     @Bean
