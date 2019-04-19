@@ -26,7 +26,7 @@
 			</line>
 			<image>
 				<reportElement x="20" y="0" width="92" height="70" uuid="5c5ac2c0-6565-4ab5-98f5-d5dc5c615225"/>
-				<imageExpression><![CDATA["C:/Users/ecarvaju/Downloads/logo.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["/reports/logo.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</title>
