@@ -2,6 +2,10 @@
 <!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Products" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e3f2c1d6-6a8b-4b95-b2a6-4ddd36afb6ab">
 	<parameter name="total" class="java.lang.String"/>
+	<parameter name="Parameter2" class="java.lang.String"/>
+	<parameter name="logo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{logo}]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[select id, item_id, item_description, price, sales_time from sold_items]]>
 	</queryString>
@@ -25,8 +29,8 @@
 				<reportElement x="10" y="89" width="540" height="1" uuid="8c79b3f7-5111-4532-9577-e7fb65f103e9"/>
 			</line>
 			<image>
-				<reportElement x="20" y="0" width="92" height="70" uuid="5c5ac2c0-6565-4ab5-98f5-d5dc5c615225"/>
-				<imageExpression><![CDATA["/reports/logo.jpg"]]></imageExpression>
+				<reportElement x="40" y="10" width="80" height="60" uuid="3d8c0ae7-8ef9-471c-b049-e014e74369fa"/>
+				<imageExpression><![CDATA["https://i0.wp.com/famososnaweb.com/wp-content/uploads/2015/12/No-Limite1.jpg?ssl=1"]]></imageExpression>
 			</image>
 		</band>
 	</title>

@@ -35,7 +35,7 @@ public class GeneratedReport {
 	
 	public void report(HttpServletResponse response) throws JRException, SQLException, IOException {
 		Map<String, Object> params = new HashMap<>();
-		params.put("logo", ClassLoader.getSystemResourceAsStream("logo.jpg"));
+		params.put("logo", ClassLoader.getSystemResourceAsStream("/reports/logo.jpg"));
 		params.put("total", this.salesRepository.sumAllPrice().toString());
 		InputStream reportStream = this.getClass().getResourceAsStream("/reports/Products.jasper");
 		
@@ -43,7 +43,7 @@ public class GeneratedReport {
 		JasperPrint jasperPrint = JasperFillManager
 				.fillReport(jasperReport, params, dataSource.getConnection());
 		response.setContentType("application/pdf");
-		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; file=sales.pdf");
+		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "inline; file=sales.pdf");
 		OutputStream outputStream = response.getOutputStream();
 		JasperExportManager.exportReportToPdfStream(jasperPrint,outputStream);
 	}
