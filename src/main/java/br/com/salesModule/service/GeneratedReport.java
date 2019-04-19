@@ -36,7 +36,7 @@ public class GeneratedReport {
 	public void report(HttpServletResponse response) throws JRException, SQLException, IOException {
 		Map<String, Object> params = new HashMap<>();
 		params.put("total", this.salesRepository.sumAllPrice().toString());
-		InputStream reportStream = this.getClass().getResourceAsStream("/reports/Products.jasper");
+		InputStream reportStream = this.getClass().getResourceAsStream("/resource/reports/Products.jasper");
 		
 		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(reportStream);
 		JasperPrint jasperPrint = JasperFillManager
