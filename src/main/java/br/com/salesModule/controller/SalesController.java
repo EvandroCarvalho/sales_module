@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.salesModule.error.ItemsNotFound;
@@ -52,9 +55,9 @@ public class SalesController {
 	private GeneratedReport generatedReport;
 
 	@GetMapping
-	@ApiOperation(value = "List all available sales", response = Sales[].class)
-	public ResponseEntity<List<Sales>> findAll() throws ItemsNotFound {
-		List<Sales> salesList = this.salesRepository.findAll();
+	@ApiOperation(value = "List all available sales, paged and/or ordered", response = Sales[].class)
+	public ResponseEntity<Page<Sales>> findAll(Pageable page) throws ItemsNotFound {
+		Page<Sales> salesList = this.salesRepository.findAll(page);
 		verifyDatabaseIsEmpty(salesList);
 		return ResponseEntity.ok(salesList);
 	}
@@ -91,7 +94,7 @@ public class SalesController {
 	}
 	
 	@GetMapping(path = "/report")
-	@ApiOperation(value = "Returns a sales report", response = JasperExportManager.class)
+	@ApiOperation(value = "Returns a sales report sorted by invoice", response = JasperExportManager.class)
 	public void report(HttpServletResponse response) throws JRException, SQLException, IOException {
 		this.generatedReport.report(response);
 	}
@@ -102,9 +105,19 @@ public class SalesController {
 		Sales item = this.salesRepository.findById(id).orElseThrow(() -> new ItemsNotFound("Not found by id: " + id));
 		return ResponseEntity.ok().body(item);
 	}
+	
+	@GetMapping(path = "/invoice/{invoiceId}")
+	@ApiOperation(value = "Find invoice by id")
+	public ResponseEntity<List<Sales>> findByInvoice(@PathVariable(value = "invoiceId")  Long invoiceId) throws ItemsNotFound {
+		List<Sales> invoices = this.salesRepository.findByInvoice(invoiceId);
+		if(invoices.isEmpty()) {
+			throw new ItemsNotFound("Invoice not Found id: " + invoiceId);
+		}
+		return ResponseEntity.ok().body(invoices);
+	}
 
-	private void verifyDatabaseIsEmpty(List<Sales> list) throws ItemsNotFound {
-		if (list.isEmpty()) {
+	private void verifyDatabaseIsEmpty(Page<Sales> salesList) throws ItemsNotFound {
+		if (salesList.isEmpty()) {
 			throw new ItemsNotFound("Items not found");
 		}
 	}

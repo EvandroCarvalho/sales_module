@@ -14,9 +14,11 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Builder
 @Data
 @Entity
 @AllArgsConstructor
@@ -43,6 +45,10 @@ public class Sales implements AbstractEntity{
 	@Column(name = "price")
 	@NotNull
 	private BigDecimal price;
+	
+	@Column(name ="invoice")
+	@NotNull
+	private Long invoice;
 	
 	@Column(name = "sales_time")
 	private Date salesTime = Calendar.getInstance().getTime();
