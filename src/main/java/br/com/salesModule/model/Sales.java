@@ -29,7 +29,7 @@ public class Sales implements AbstractEntity{
 	private static final long serialVersionUID = -3899995409834599670L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
 	
