@@ -1,7 +1,6 @@
 package br.com.salesModule.service;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.sql.SQLDataException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,8 +8,6 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.salesModule.model.Sales;
@@ -29,17 +26,17 @@ public class SaveListOfItemsSales {
 
 	@Transactional
 	@Valid
-	public ResponseEntity<?> saveAllList(SalesRequest listSales) {
-		List<Sales> response = new ArrayList<>();
+	public List<Sales> saveAllList(SalesRequest listSales) throws SQLDataException {
+		List<Sales> responseList = new ArrayList<>();
 		try {
 			log.info("Save list in dataBase: " + listSales.toString());
 			for (Sales sales : listSales.getSalesList()) {
-				response.add(this.salesRepository.save(sales));
+				responseList.add(this.salesRepository.save(sales));
 			}
-			return ResponseEntity.created(new URI("v1/sales")).body(response);
-		} catch (URISyntaxException e) {
+			return responseList;
+		} catch (Exception e) {
 			e.printStackTrace();
+			throw new SQLDataException();
 		}
-		return ResponseEntity.status(HttpStatus.BAD_GATEWAY).build();
 	}
 }

@@ -3,6 +3,7 @@ package br.com.salesModule.controller;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,7 +23,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.salesModule.error.ItemsNotFound;
@@ -71,26 +72,28 @@ public class SalesController {
 
 	@PostMapping(path = "/saveList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ApiOperation(value = "Save list of sales item", response = Sales[].class)
-	public ResponseEntity<?> saveListItems(@Valid @RequestBody SalesRequest listItemsSales)
-			throws URISyntaxException {
+	public ResponseEntity<?> saveListItems(@Valid @RequestBody SalesRequest listItemsSales) throws SQLDataException{
 		log.info("Request save items: " + listItemsSales.toString());
-		return this.saveListOfItemsSales.saveAllList(listItemsSales);
+		List<Sales> salesList =  this.saveListOfItemsSales.saveAllList(listItemsSales);
+		return ResponseEntity.status(HttpStatus.CREATED).body(salesList);
 	}
 
 	@PutMapping
 	@ApiOperation(value = "Update values ​​of an attribute", response = Sales.class)
 	public ResponseEntity<Sales> update(@Valid @RequestBody Sales item) throws ItemsNotFound {
-		verifyHasItem(item.getId());
 		Sales response = this.salesRepository.save(item);
 		return ResponseEntity.ok(response);
 	}
 	
-	@DeleteMapping
+	@DeleteMapping(value = "/{id}")
 	@ApiOperation(value = "Remove item available in database")
-	public ResponseEntity<?> delete(@RequestBody Long id) throws ItemsNotFound {
-		verifyHasItem(id);
-		this.salesRepository.deleteById(id);
-		return ResponseEntity.ok().build();
+	public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) throws NotFoundException {
+		try {
+			this.salesRepository.deleteById(id);
+			return ResponseEntity.ok().build();
+		}catch(InternalError e) {
+			throw new NotFoundException("Item not found id: " + id);
+		}
 	}
 	
 	@GetMapping(path = "/report")
