@@ -21,7 +21,7 @@ public class EmployeeController {
 	
 	private final EmployeeRepository employeeRepository;
 	
-	@GetMapping(path = "/{name}")
+	@GetMapping(path = "/findByName/{name}")
 	public ResponseEntity<List<Employee>> getEmployeeByName(@PathVariable(value = "name") String name) {
 		List<Employee> e = employeeRepository.findByNameContainingIgnoreCase(name);
 		return ResponseEntity.ok(e);
