@@ -35,8 +35,8 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import br.com.salesModule.model.Sales;
 import br.com.salesModule.model.SalesRequest;
 import br.com.salesModule.repository.SalesRepository;
-import br.com.salesModule.service.GeneratedReport;
-import br.com.salesModule.service.SaveListOfItemsSales;
+import br.com.salesModule.service.GeneratedReportImpl;
+import br.com.salesModule.service.SaveListOfItemsSalesImpl;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest
@@ -47,10 +47,10 @@ public class SalesControllerTest {
 	private SalesRepository salesRepository;
 	
 	@MockBean
-	private SaveListOfItemsSales saveListOfItemsSales;
+	private SaveListOfItemsSalesImpl saveListOfItemsSales;
 	
 	@MockBean
-	private GeneratedReport generatedReport;
+	private GeneratedReportImpl generatedReport;
 	
 	@Autowired
 	private MockMvc mockMvc;

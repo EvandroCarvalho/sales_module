@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,8 +30,8 @@ import br.com.salesModule.error.ItemsNotFound;
 import br.com.salesModule.model.Sales;
 import br.com.salesModule.model.SalesRequest;
 import br.com.salesModule.repository.SalesRepository;
-import br.com.salesModule.service.GeneratedReport;
-import br.com.salesModule.service.SaveListOfItemsSales;
+import br.com.salesModule.service.GeneratedReportImpl;
+import br.com.salesModule.service.SaveListOfItemsSalesImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import javassist.NotFoundException;
@@ -50,13 +51,14 @@ public class SalesController {
 	private final SalesRepository salesRepository;
 
 	@Autowired
-	private SaveListOfItemsSales saveListOfItemsSales;
+	private SaveListOfItemsSalesImpl saveListOfItemsSales;
 
 	@Autowired
-	private GeneratedReport generatedReport;
+	private GeneratedReportImpl generatedReport;
 
 	@GetMapping
 	@ApiOperation(value = "List all available sales, paged and/or ordered", response = Sales[].class)
+	@CrossOrigin
 	public ResponseEntity<Page<Sales>> findAll(Pageable page) throws ItemsNotFound {
 		Page<Sales> salesList = this.salesRepository.findAll(page);
 		verifyDatabaseIsEmpty(salesList);
@@ -65,6 +67,7 @@ public class SalesController {
 
 	@PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ApiOperation(value = "Save sale item", response = Sales.class)
+	@CrossOrigin
 	public ResponseEntity<Sales> saveItem(@Valid @RequestBody Sales item) throws URISyntaxException {
 		Sales salesItem = this.salesRepository.save(item);
 		return ResponseEntity.created(new URI("/v1/sales/" + salesItem.getId())).body(salesItem);
@@ -72,6 +75,7 @@ public class SalesController {
 
 	@PostMapping(path = "/saveList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ApiOperation(value = "Save list of sales item", response = Sales[].class)
+	@CrossOrigin
 	public ResponseEntity<?> saveListItems(@Valid @RequestBody SalesRequest listItemsSales) throws SQLDataException{
 		log.info("Request save items: " + listItemsSales.toString());
 		List<Sales> salesList =  this.saveListOfItemsSales.saveAllList(listItemsSales);
@@ -80,6 +84,7 @@ public class SalesController {
 
 	@PutMapping
 	@ApiOperation(value = "Update values ​​of an attribute", response = Sales.class)
+	@CrossOrigin
 	public ResponseEntity<Sales> update(@Valid @RequestBody Sales item) throws ItemsNotFound {
 		Sales response = this.salesRepository.save(item);
 		return ResponseEntity.ok(response);
@@ -87,6 +92,7 @@ public class SalesController {
 	
 	@DeleteMapping(value = "/{id}")
 	@ApiOperation(value = "Remove item available in database")
+	@CrossOrigin
 	public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) throws NotFoundException {
 		try {
 			this.salesRepository.deleteById(id);
@@ -98,12 +104,14 @@ public class SalesController {
 	
 	@GetMapping(path = "/report")
 	@ApiOperation(value = "Returns a sales report sorted by invoice", response = JasperExportManager.class)
+	@CrossOrigin
 	public void report(HttpServletResponse response) throws JRException, SQLException, IOException {
 		this.generatedReport.report(response);
 	}
 
 	@GetMapping(path = "/{id}")
 	@ApiOperation(value = "Find one item by id", response = Sales.class)
+	@CrossOrigin
 	public ResponseEntity<Sales> findById(@RequestBody @PathVariable(value = "id") Long id) throws NotFoundException {
 		Sales item = this.salesRepository.findById(id).orElseThrow(() -> new ItemsNotFound("Not found by id: " + id));
 		return ResponseEntity.ok().body(item);
@@ -111,6 +119,7 @@ public class SalesController {
 	
 	@GetMapping(path = "/invoice/{invoiceId}")
 	@ApiOperation(value = "Find invoice by id")
+	@CrossOrigin
 	public ResponseEntity<List<Sales>> findByInvoice(@PathVariable(value = "invoiceId")  Long invoiceId) throws ItemsNotFound {
 		List<Sales> invoices = this.salesRepository.findByInvoice(invoiceId);
 		if(invoices.isEmpty()) {
