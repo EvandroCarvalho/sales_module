@@ -40,6 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 
+@CrossOrigin
 @Slf4j
 @RestController
 @RequestMapping("v1/sales")
