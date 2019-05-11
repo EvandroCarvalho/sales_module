@@ -3,13 +3,13 @@ package br.com.salesModule.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import br.com.salesModule.model.Employee;
 
 @CrossOrigin
-@RepositoryRestResource(collectionResourceRel = "employees", path = "employees")
+@Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 	List<Employee> findByNameContainingIgnoreCase(String name);
 }

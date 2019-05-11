@@ -76,9 +76,10 @@ public class SalesController {
 	@PostMapping(path = "/saveList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ApiOperation(value = "Save list of sales item", response = Sales[].class)
 	@CrossOrigin
-	public ResponseEntity<?> saveListItems(@Valid @RequestBody SalesRequest listItemsSales) throws SQLDataException{
+	public ResponseEntity<List<Sales>> saveListItems(@Valid @RequestBody SalesRequest listItemsSales)
+			throws SQLDataException {
 		log.info("Request save items: " + listItemsSales.toString());
-		List<Sales> salesList =  this.saveListOfItemsSales.saveAllList(listItemsSales);
+		List<Sales> salesList = this.saveListOfItemsSales.saveAllList(listItemsSales);
 		return ResponseEntity.status(HttpStatus.CREATED).body(salesList);
 	}
 
@@ -89,19 +90,19 @@ public class SalesController {
 		Sales response = this.salesRepository.save(item);
 		return ResponseEntity.ok(response);
 	}
-	
+
 	@DeleteMapping(value = "/{id}")
 	@ApiOperation(value = "Remove item available in database")
 	@CrossOrigin
-	public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) throws NotFoundException {
-		try {
+	public ResponseEntity<HttpStatus> delete(@PathVariable(value = "id") Long id) throws ItemsNotFound {
+		if (this.salesRepository.existsById(id)) {
 			this.salesRepository.deleteById(id);
-			return ResponseEntity.ok().build();
-		}catch(InternalError e) {
-			throw new NotFoundException("Item not found id: " + id);
+		} else {
+			new ItemsNotFound("Not found by id: " + id);
 		}
+		return ResponseEntity.ok().build();
 	}
-	
+
 	@GetMapping(path = "/report")
 	@ApiOperation(value = "Returns a sales report sorted by invoice", response = JasperExportManager.class)
 	@CrossOrigin
@@ -116,13 +117,14 @@ public class SalesController {
 		Sales item = this.salesRepository.findById(id).orElseThrow(() -> new ItemsNotFound("Not found by id: " + id));
 		return ResponseEntity.ok().body(item);
 	}
-	
+
 	@GetMapping(path = "/invoice/{invoiceId}")
 	@ApiOperation(value = "Find invoice by id")
 	@CrossOrigin
-	public ResponseEntity<List<Sales>> findByInvoice(@PathVariable(value = "invoiceId")  Long invoiceId) throws ItemsNotFound {
+	public ResponseEntity<List<Sales>> findByInvoice(@PathVariable(value = "invoiceId") Long invoiceId)
+			throws ItemsNotFound {
 		List<Sales> invoices = this.salesRepository.findByInvoice(invoiceId);
-		if(invoices.isEmpty()) {
+		if (invoices.isEmpty()) {
 			throw new ItemsNotFound("Invoice not Found id: " + invoiceId);
 		}
 		return ResponseEntity.ok().body(invoices);
@@ -131,12 +133,6 @@ public class SalesController {
 	private void verifyDatabaseIsEmpty(Page<Sales> salesList) throws ItemsNotFound {
 		if (salesList.isEmpty()) {
 			throw new ItemsNotFound("Items not found");
-		}
-	}
-
-	private void verifyHasItem(long id) throws ItemsNotFound {
-		if (!this.salesRepository.existsById(id)) {
-			throw new ItemsNotFound("Item not found by id: " + id);
 		}
 	}
 }

@@ -13,19 +13,20 @@ import lombok.Data;
 @Entity
 @Data
 @Builder
-public class Employee implements AbstractEntity {
-	
-	private static final long serialVersionUID = -5621324285110469600L;
-	
+public class Customer implements AbstractEntity {
+
+	private static final long serialVersionUID = -1454337162662690055L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@NotNull
 	@NotBlank
 	private String name;
+	@NotNull
 	private String cpf;
+	private String phone;
 	private String address;
 	private String email;
-	private String phone;
-	
+
 }
