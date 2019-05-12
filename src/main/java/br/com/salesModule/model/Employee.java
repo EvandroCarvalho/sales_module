@@ -22,7 +22,7 @@ public class Employee implements AbstractEntity {
 	private static final long serialVersionUID = -5621324285110469600L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@NotNull
 	@NotBlank

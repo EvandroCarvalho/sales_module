@@ -20,7 +20,7 @@ public class Customer implements AbstractEntity {
 	private static final long serialVersionUID = -5546297725248514790L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
 	private String cpf;
