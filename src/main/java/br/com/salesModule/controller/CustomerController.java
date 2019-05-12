@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.salesModule.error.ItemsNotFound;
 import br.com.salesModule.model.Customer;
+import br.com.salesModule.model.Employee;
 import br.com.salesModule.repository.CustomerRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -79,7 +80,15 @@ public class CustomerController {
 		} else {
 			throw new ItemsNotFound("Not found by cpf: " + cpf);
 		}
-
+	}
+	
+	@GetMapping(path = "/{id}")
+	@ApiOperation(value = "Find customer by id", response = Customer.class)
+	public ResponseEntity<Customer> findById(@PathVariable(value = "id") Long id) throws ItemsNotFound {
+		Customer customer = customerRepository
+				.findById(id)
+				.orElseThrow( () -> new ItemsNotFound("Not found by id: " + id));
+		return ResponseEntity.ok(customer);
 	}
 
 }

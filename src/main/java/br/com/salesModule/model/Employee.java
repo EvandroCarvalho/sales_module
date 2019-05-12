@@ -1,5 +1,6 @@
 package br.com.salesModule.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,12 +25,17 @@ public class Employee implements AbstractEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column(name = "name")
+	private String name;
 	@NotNull
 	@NotBlank
-	private String name;
+	@Column(name = "cpf")
 	private String cpf;
-	private String address;
-	private String email;
+	@Column(name = "phone")
 	private String phone;
+	@Column(name = "address")
+	private String address;
+	@Column(name = "email")
+	private String email;
 	
 }
