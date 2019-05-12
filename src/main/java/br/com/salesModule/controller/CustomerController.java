@@ -22,7 +22,9 @@ import br.com.salesModule.repository.CustomerRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Api(value = "Endpoints to manage customer")
 @RequestMapping(path = "v1/customers")
 @RestController
@@ -34,6 +36,7 @@ public class CustomerController {
 	@PostMapping
 	@ApiOperation(value = "Save customer", response = Customer.class)
 	public ResponseEntity<Customer> save(@RequestBody Customer custumerRequest) {
+		log.info("Request: " + custumerRequest.toString());
 		Customer customer = customerRepository.save(custumerRequest);
 		return ResponseEntity.status(HttpStatus.CREATED).body(customer);
 	}
@@ -58,7 +61,7 @@ public class CustomerController {
 
 	@GetMapping
 	@ApiOperation(value = "List all customer available, paged and/or ordered", response = Customer[].class)
-	public ResponseEntity<Page<Customer>> listAll(@RequestBody Pageable page) throws ItemsNotFound {
+	public ResponseEntity<Page<Customer>> listAll(Pageable page) throws ItemsNotFound {
 		Page<Customer> listCustomer = customerRepository.findAll(page);
 		if (listCustomer.isEmpty()) {
 			throw new ItemsNotFound("Not found customers");
