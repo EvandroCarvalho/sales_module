@@ -71,7 +71,7 @@ public class CustomerController {
 		}
 	}
 
-	@GetMapping(path = "/{cpf}")
+	@GetMapping(path = "/findByCPF/{cpf}")
 	@ApiOperation(value = "find customer by cpf", response = Customer.class)
 	public ResponseEntity<Customer> findByCpf(@PathVariable(value = "cpf") String cpf) throws ItemsNotFound {
 		Optional<Customer> customer = customerRepository.findByCpf(cpf);
