@@ -32,21 +32,25 @@ public class EmployeeController {
 	private final EmployeeRepository employeeRepository;
 
 	@GetMapping(path = "/findByName/{name}")
-	@ApiOperation(value = "find employee by name", response = Employee[].class)
-	public ResponseEntity<List<Employee>> getEmployeeByName(@PathVariable(value = "name") String name) {
-		List<Employee> e = employeeRepository.findByNameContainingIgnoreCase(name);
-		return ResponseEntity.ok(e);
+	@ApiOperation(value = "Find employee by name", response = Employee[].class)
+	public ResponseEntity<List<Employee>> getEmployeeByName(@PathVariable(value = "name") String name) throws ItemsNotFound {
+		List<Employee> employees = employeeRepository.findByNameContainingIgnoreCase(name);
+		if(!employees.isEmpty()) {
+			return ResponseEntity.ok(employees);
+		} else {
+			throw new ItemsNotFound("Not found by name: " + name);
+		}
 	}
 
 	@PostMapping
-	@ApiOperation(value = "save employee", response = Employee.class)
+	@ApiOperation(value = "Save employee", response = Employee.class)
 	public ResponseEntity<Employee> save(@RequestBody Employee employeeRequest) {
 		Employee employee = employeeRepository.save(employeeRequest);
 		return ResponseEntity.status(HttpStatus.CREATED).body(employee);
 	}
 
 	@PutMapping
-	@ApiOperation(value = "update values of an attribute", response = Employee.class)
+	@ApiOperation(value = "Update values of an attribute", response = Employee.class)
 	public ResponseEntity<Employee> update(@RequestBody Employee employeeRequest) {
 		Employee employee = employeeRepository.save(employeeRequest);
 		return ResponseEntity.ok(employee);
