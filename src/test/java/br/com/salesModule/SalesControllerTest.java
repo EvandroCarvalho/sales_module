@@ -34,6 +34,9 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 
 import br.com.salesModule.model.Sales;
 import br.com.salesModule.model.SalesRequest;
+import br.com.salesModule.repository.CustomerRepository;
+import br.com.salesModule.repository.EmployeeRepository;
+import br.com.salesModule.repository.ProductRepository;
 import br.com.salesModule.repository.SalesRepository;
 import br.com.salesModule.service.GeneratedReportImpl;
 import br.com.salesModule.service.SaveListOfItemsSalesImpl;
@@ -45,6 +48,15 @@ public class SalesControllerTest {
 	
 	@MockBean
 	private SalesRepository salesRepository;
+	
+	@MockBean
+	private CustomerRepository customerRepository;
+	
+	@MockBean
+	private EmployeeRepository employeeRepository;
+	
+	@MockBean
+	private ProductRepository productRepository;
 	
 	@MockBean
 	private SaveListOfItemsSalesImpl saveListOfItemsSales;

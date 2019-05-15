@@ -50,6 +50,14 @@ public class Sales implements AbstractEntity{
 	@NotNull
 	private Long invoice;
 	
+	@Column(name = "customer")
+	@NotNull
+	private Customer customer;
+	
+	@Column(name = "employee")
+	@NotNull
+	private Employee employee;
+	
 	@Column(name = "sales_time")
 	private Date salesTime = Calendar.getInstance().getTime();
 

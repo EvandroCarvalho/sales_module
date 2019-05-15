@@ -67,6 +67,15 @@ public class ProductController {
 		}
 	}
 	
+	@GetMapping(path = "/{id}")
+	@ApiOperation(value = "Find product by id", response = Product.class)
+	public ResponseEntity<Product> findById(@PathVariable(value = "id") Long id) throws ItemsNotFound {
+		Product product = productRepository.findById(id)
+				.orElseThrow(() -> new ItemsNotFound("Not found by id: " + id));
+		return ResponseEntity.ok(product);
+	}
+	
+	
 	@GetMapping(path = "/findByName/{name}")
 	@ApiOperation(value = "Find product by name", response = Product.class)
 	public ResponseEntity<List<Product>> findByName(@PathVariable(value = "name") String name) throws ItemsNotFound {
