@@ -14,34 +14,37 @@ import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Table(name = "product")
-public class Product implements AbstractEntity {
+public class Product extends AbstractEntity {
 
 	private static final long serialVersionUID = -947277822634843981L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
+	
 	@NotNull
 	@NotBlank
+	@Column(name = "name")
 	private String name;
-	@Column(name = "description")
-	private String description;
-	@NotNull
-	@Column(name = "amount")
-	private int amount;
-	@Column(name = "price")
+	
+	@Column(name = "brand")
+	private String brand;
+
+	@Column(name = "cost_price")
 	private BigDecimal price;
 	
+	@Column(name = "sell_price")
+	private BigDecimal sellPrice;
+		
 	
-	
-	
-
 }

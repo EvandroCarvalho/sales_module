@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.salesModule.error.ItemsNotFound;
 import br.com.salesModule.model.Customer;
-import br.com.salesModule.model.Employee;
 import br.com.salesModule.repository.CustomerRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -11,14 +11,16 @@ import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Customer implements AbstractEntity {
+public class Customer extends AbstractEntity {
 
 	private static final long serialVersionUID = -5546297725248514790L;
 	

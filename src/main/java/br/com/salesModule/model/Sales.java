@@ -1,7 +1,6 @@
 package br.com.salesModule.model;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -9,24 +8,39 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@Builder
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "sold_items")
-public class Sales implements AbstractEntity{
+public class Sales extends AbstractEntity{
 	
 	private static final long serialVersionUID = -3899995409834599670L;
+	
+	
+	@Builder
+	public Sales(Long id, @NotNull Long itemId, @NotNull @NotEmpty String itemName, @NotNull BigDecimal sellPrice,
+			@NotNull Long invoice, Customer customer, Employee employee, Date createAt, Date updateAt) {
+		super(createAt, updateAt);
+		this.id = id;
+		this.itemId = itemId;
+		this.itemName = itemName;
+		this.sellPrice = sellPrice;
+		this.invoice = invoice;
+		this.customer = customer;
+		this.employee = employee;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,28 +51,28 @@ public class Sales implements AbstractEntity{
 	@NotNull
 	private Long itemId;
 	
-	@Column(name = "item_description")
+	@Column(name = "item_name")
 	@NotNull
 	@NotEmpty
-	private String itemDescipton;
+	private String itemName;
 	
-	@Column(name = "price")
+	@Column(name = "sell_price")
 	@NotNull
-	private BigDecimal price;
+	private BigDecimal sellPrice;
 	
 	@Column(name ="invoice")
 	@NotNull
 	private Long invoice;
 	
-	@Column(name = "customer")
-	@NotNull
+	@Column(name = "brand")
+	private String brand;
+	
+	@JoinColumn(name = "customer_id")
+	@ManyToOne
 	private Customer customer;
 	
-	@Column(name = "employee")
-	@NotNull
+	@JoinColumn(name = "employee_id")
+	@ManyToOne
 	private Employee employee;
-	
-	@Column(name = "sales_time")
-	private Date salesTime = Calendar.getInstance().getTime();
 
 }
