@@ -60,6 +60,10 @@ public class Sales extends AbstractEntity{
 	@NotNull
 	private BigDecimal sellPrice;
 	
+	@Column(name = "Price")
+	@NotNull
+	private BigDecimal price;
+	
 	@Column(name ="invoice")
 	@NotNull
 	private Long invoice;
