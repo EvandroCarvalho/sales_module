@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class CustomerController {
-
+	@Autowired
 	private final CustomerRepository customerRepository;
 
 	@PostMapping

@@ -37,7 +37,7 @@ public class EmployeeController {
 		List<Employee> employees = employeeRepository.findByNameContainingIgnoreCase(name);
 		if(!employees.isEmpty()) {
 			return ResponseEntity.ok(employees);
-		} else {
+		} else {	
 			throw new ItemsNotFound("Not found by name: " + name);
 		}
 	}
