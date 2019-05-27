@@ -1,5 +1,8 @@
 package br.com.salesModule.model;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +11,10 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import br.com.salesModule.util.LocalDataDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,5 +46,13 @@ public class Customer extends AbstractEntity {
 	private String address;
 	@Column(name = "email")
 	private String email;
+	@Column(name = "birth_date")
+	@JsonDeserialize(using=LocalDataDeserializer.class)
+	private LocalDate birthDate;
+	@Column(name = "salary")
+	private BigDecimal salary;
+	@Column(name = "gender")
+	private Character gender;
+	
 
 }
