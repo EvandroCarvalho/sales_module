@@ -20,30 +20,25 @@ import javax.validation.constraints.NotNull;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Customer extends AbstractEntity {
+public class User extends AbstractEntity implements Serializable {
 
-    private static final long serialVersionUID = -5546297725248514790L;
+//    private static final long serialVersionUID = -5546297725248514790L;
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "name")
-    private String name;
     @NotNull
     @NotBlank
-    @Column(name = "cpf")
-    private String cpf;
-    @Column(name = "phone")
-    private String phone;
-    @Column(name = "address")
-    private String address;
-    @Column(name = "email")
-    private String email;
-    @Column(name = "sexo")
-    private String sexo;
-    @Column(name = "date_of_birth")
-    private Date date_of_birth;
-    @Column(name = "salary")
-    private Long salary;
+    @Column(name = "username")
+    private String username;
+    @NotNull
+    @NotBlank
+    @Column(name = "password")
+    private String password;
+    @NotNull
+    @NotBlank
+    @Column(name = "profile")
+    private String profile;
 
 }
