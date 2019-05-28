@@ -30,64 +30,64 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class CustomerController {
-	@Autowired
-	private final CustomerRepository customerRepository;
+    @Autowired
+    private final CustomerRepository customerRepository;
 
-	@PostMapping
-	@ApiOperation(value = "Save customer", response = Customer.class)
-	public ResponseEntity<Customer> save(@RequestBody Customer custumerRequest) {
-		log.info("Request: " + custumerRequest.toString());
-		Customer customer = customerRepository.save(custumerRequest);
-		return ResponseEntity.status(HttpStatus.CREATED).body(customer);
-	}
+    @PostMapping
+    @ApiOperation(value = "Save customer", response = Customer.class)
+    public ResponseEntity<Customer> save(@RequestBody Customer custumerRequest) {
+        log.info("Request: " + custumerRequest.toString());
+        Customer customer = customerRepository.save(custumerRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(customer);
+    }
 
-	@PutMapping
-	@ApiOperation(value = "Update values of an attribute", response = Customer.class)
-	public ResponseEntity<Customer> update(@RequestBody Customer customerRequest) {
-		Customer customer = customerRepository.save(customerRequest);
-		return ResponseEntity.ok(customer);
-	}
+    @PutMapping
+    @ApiOperation(value = "Update values of an attribute", response = Customer.class)
+    public ResponseEntity<Customer> update(@RequestBody Customer customerRequest) {
+        Customer customer = customerRepository.save(customerRequest);
+        return ResponseEntity.ok(customer);
+    }
 
-	@DeleteMapping(path = "/{id}")
-	@ApiOperation(value = "Delete item available", response = ResponseEntity.class)
-	public ResponseEntity<HttpStatus> delete(@PathVariable(value = "id") Long id) throws ItemsNotFound {
-		if (customerRepository.existsById(id)) {
-			customerRepository.deleteById(id);
-			return ResponseEntity.ok().build();
-		} else {
-			throw new ItemsNotFound("Not found by id: " + id);
-		}
-	}
+    @DeleteMapping(path = "/{id}")
+    @ApiOperation(value = "Delete item available", response = ResponseEntity.class)
+    public ResponseEntity<HttpStatus> delete(@PathVariable(value = "id") Long id) throws ItemsNotFound {
+        if (customerRepository.existsById(id)) {
+            customerRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        } else {
+            throw new ItemsNotFound("Not found by id: " + id);
+        }
+    }
 
-	@GetMapping
-	@ApiOperation(value = "List all customer available, paged and/or ordered", response = Customer[].class)
-	public ResponseEntity<Page<Customer>> listAll(Pageable page) throws ItemsNotFound {
-		Page<Customer> listCustomer = customerRepository.findAll(page);
-		if (listCustomer.isEmpty()) {
-			throw new ItemsNotFound("Not found customers");
-		} else {
-			return ResponseEntity.ok(listCustomer);
-		}
-	}
+    @GetMapping
+    @ApiOperation(value = "List all customer available, paged and/or ordered", response = Customer[].class)
+    public ResponseEntity<Page<Customer>> listAll(Pageable page) throws ItemsNotFound {
+        Page<Customer> listCustomer = customerRepository.findAll(page);
+        if (listCustomer.isEmpty()) {
+            throw new ItemsNotFound("Not found customers");
+        } else {
+            return ResponseEntity.ok(listCustomer);
+        }
+    }
 
-	@GetMapping(path = "/findByCPF/{cpf}")
-	@ApiOperation(value = "find customer by cpf", response = Customer.class)
-	public ResponseEntity<Customer> findByCpf(@PathVariable(value = "cpf") String cpf) throws ItemsNotFound {
-		Optional<Customer> customer = customerRepository.findByCpf(cpf);
-		if (customer.isPresent()) {
-			return ResponseEntity.ok(customer.get());
-		} else {
-			throw new ItemsNotFound("Not found by cpf: " + cpf);
-		}
-	}
-	
-	@GetMapping(path = "/{id}")
-	@ApiOperation(value = "Find customer by id", response = Customer.class)
-	public ResponseEntity<Customer> findById(@PathVariable(value = "id") Long id) throws ItemsNotFound {
-		Customer customer = customerRepository
-				.findById(id)
-				.orElseThrow( () -> new ItemsNotFound("Not found by id: " + id));
-		return ResponseEntity.ok(customer);
-	}
+    @GetMapping(path = "/findByCPF/{cpf}")
+    @ApiOperation(value = "find customer by cpf", response = Customer.class)
+    public ResponseEntity<Customer> findByCpf(@PathVariable(value = "cpf") String cpf) throws ItemsNotFound {
+        Optional<Customer> customer = customerRepository.findByCpf(cpf);
+        if (customer.isPresent()) {
+            return ResponseEntity.ok(customer.get());
+        } else {
+            throw new ItemsNotFound("Not found by cpf: " + cpf);
+        }
+    }
+
+    @GetMapping(path = "/{id}")
+    @ApiOperation(value = "Find customer by id", response = Customer.class)
+    public ResponseEntity<Customer> findById(@PathVariable(value = "id") Long id) throws ItemsNotFound {
+        Customer customer = customerRepository
+                .findById(id)
+                .orElseThrow(() -> new ItemsNotFound("Not found by id: " + id));
+        return ResponseEntity.ok(customer);
+    }
 
 }

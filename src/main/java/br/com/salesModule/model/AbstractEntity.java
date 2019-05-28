@@ -1,23 +1,16 @@
 package br.com.salesModule.model;
 
-import java.io.Serializable;
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
 
 @MappedSuperclass
 @JsonIgnoreProperties(
@@ -29,18 +22,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public abstract class AbstractEntity implements Serializable {
-	
-	private static final long serialVersionUID = -8100624481945439795L;
 
-	@Temporal(TemporalType.DATE)
+    private static final long serialVersionUID = -8100624481945439795L;
+
+    @Temporal(TemporalType.DATE)
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreatedDate
     private Date createdAt;
-    
+
     @Temporal(TemporalType.DATE)
     @Column(name = "updated_at", nullable = false)
     @LastModifiedDate
     private Date updatedAt;
-	
+
 
 }

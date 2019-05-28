@@ -37,7 +37,7 @@ public class EmployeeController {
 		List<Employee> employees = employeeRepository.findByNameContainingIgnoreCase(name);
 		if(!employees.isEmpty()) {
 			return ResponseEntity.ok(employees);
-		} else {	
+		} else {
 			throw new ItemsNotFound("Not found by name: " + name);
 		}
 	}
@@ -77,7 +77,7 @@ public class EmployeeController {
 			throw new ItemsNotFound("Not found employees in database");
 		}
 	}
-	
+
 	@GetMapping(path = "/{id}")
 	@ApiOperation(value = "Find employee by id", response = Employee.class)
 	public ResponseEntity<Employee> getById(@PathVariable(value = "id") Long id) throws ItemsNotFound {

@@ -28,63 +28,63 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @Api(value = "Endpoints to manage products")
 public class ProductController {
-	
-	private final ProductRepository productRepository;
-	
-	@GetMapping
-	@ApiOperation(value = "List all employees available, paged and/or ordered", response = Product[].class)
-	public ResponseEntity<Page<Product>> findAll(Pageable page) throws ItemsNotFound {
-		Page<Product> products = productRepository.findAll(page);
-		if(!products.isEmpty()) {
-			return ResponseEntity.ok(products);
-		} else {
-			throw new ItemsNotFound("Not found products");
-		}
-	}
-	
-	@PostMapping
-	@ApiOperation(value = "Create save product in database", response = Product.class)
-	public ResponseEntity<Product> save(@RequestBody Product product) {
-		Product prod = productRepository.save(product);
-		return ResponseEntity.status(HttpStatus.CREATED).body(prod);
-	}
-	
-	@PutMapping
-	@ApiOperation(value= "Update values of an attribute", response = Product.class)
-	public ResponseEntity<Product> update(@RequestBody Product product) {
-		Product prod = productRepository.save(product);
-		return ResponseEntity.ok(prod);		
-	}
-	
-	@DeleteMapping(path = "/{id}")
-	@ApiOperation(value = "Remove item available in database", response = ResponseEntity.class)
-	public ResponseEntity<HttpStatus> delete(@PathVariable(value = "id") Long id) throws ItemsNotFound {
-		if(productRepository.existsById(id)) {
-			productRepository.deleteById(id);
-			return ResponseEntity.ok().build();
-		} else {
-			throw new ItemsNotFound("Not found by id: " + id);
-		}
-	}
-	
-	@GetMapping(path = "/{id}")
-	@ApiOperation(value = "Find product by id", response = Product.class)
-	public ResponseEntity<Product> findById(@PathVariable(value = "id") Long id) throws ItemsNotFound {
-		Product product = productRepository.findById(id)
-				.orElseThrow(() -> new ItemsNotFound("Not found by id: " + id));
-		return ResponseEntity.ok(product);
-	}
-	
-	
-	@GetMapping(path = "/findByName/{name}")
-	@ApiOperation(value = "Find product by name", response = Product.class)
-	public ResponseEntity<List<Product>> findByName(@PathVariable(value = "name") String name) throws ItemsNotFound {
-		List<Product> products = productRepository.findByNameContainingIgnoreCase(name);
-		if(!products.isEmpty()) {
-			return ResponseEntity.ok(products);
-		} else {
-			throw new ItemsNotFound("Not found by name: " + name);
-		}
-	}
+
+    private final ProductRepository productRepository;
+
+    @GetMapping
+    @ApiOperation(value = "List all employees available, paged and/or ordered", response = Product[].class)
+    public ResponseEntity<Page<Product>> findAll(Pageable page) throws ItemsNotFound {
+        Page<Product> products = productRepository.findAll(page);
+        if (!products.isEmpty()) {
+            return ResponseEntity.ok(products);
+        } else {
+            throw new ItemsNotFound("Not found products");
+        }
+    }
+
+    @PostMapping
+    @ApiOperation(value = "Create save product in database", response = Product.class)
+    public ResponseEntity<Product> save(@RequestBody Product product) {
+        Product prod = productRepository.save(product);
+        return ResponseEntity.status(HttpStatus.CREATED).body(prod);
+    }
+
+    @PutMapping
+    @ApiOperation(value = "Update values of an attribute", response = Product.class)
+    public ResponseEntity<Product> update(@RequestBody Product product) {
+        Product prod = productRepository.save(product);
+        return ResponseEntity.ok(prod);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    @ApiOperation(value = "Remove item available in database", response = ResponseEntity.class)
+    public ResponseEntity<HttpStatus> delete(@PathVariable(value = "id") Long id) throws ItemsNotFound {
+        if (productRepository.existsById(id)) {
+            productRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        } else {
+            throw new ItemsNotFound("Not found by id: " + id);
+        }
+    }
+
+    @GetMapping(path = "/{id}")
+    @ApiOperation(value = "Find product by id", response = Product.class)
+    public ResponseEntity<Product> findById(@PathVariable(value = "id") Long id) throws ItemsNotFound {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ItemsNotFound("Not found by id: " + id));
+        return ResponseEntity.ok(product);
+    }
+
+
+    @GetMapping(path = "/findByName/{name}")
+    @ApiOperation(value = "Find product by name", response = Product.class)
+    public ResponseEntity<List<Product>> findByName(@PathVariable(value = "name") String name) throws ItemsNotFound {
+        List<Product> products = productRepository.findByNameContainingIgnoreCase(name);
+        if (!products.isEmpty()) {
+            return ResponseEntity.ok(products);
+        } else {
+            throw new ItemsNotFound("Not found by name: " + name);
+        }
+    }
 
 }
