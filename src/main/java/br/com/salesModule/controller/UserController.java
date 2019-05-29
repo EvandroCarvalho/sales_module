@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.salesModule.error.ItemsNotFound;
@@ -78,9 +79,9 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping(path = "/{username}")
+    @GetMapping(path = "/")
     @ApiOperation(value = "Find user by username", response = User.class)
-    public ResponseEntity<User> findById(@PathVariable(value = "username") String username) throws ItemsNotFound {
+    public ResponseEntity<User> findById(@RequestParam(value = "username") String username) throws ItemsNotFound {
         User user = userRepository
                 .findByUsername(username)
                 .orElseThrow(() -> new ItemsNotFound("Not found by username: " + username));
