@@ -4,7 +4,7 @@ import javassist.NotFoundException;
 
 public class ItemsNotFound extends NotFoundException {
 
-	public ItemsNotFound(String msg) {
-		super(msg);
-	}	
+    public ItemsNotFound(String msg) {
+        super(msg);
+    }
 }

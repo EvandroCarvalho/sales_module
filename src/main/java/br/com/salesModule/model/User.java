@@ -29,14 +29,11 @@ public class User extends AbstractEntity{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@NotNull
-	@Column(name = "name")
-	private String name;
+	@Column(name = "username")
+	private String username;
 	@Column(name = "password")
 	@NotNull
 	private String password;
 	@Column(name = "profile")
 	private String profile;
-	@Column(name = "cpf")
-	private String cpf;
-
 }

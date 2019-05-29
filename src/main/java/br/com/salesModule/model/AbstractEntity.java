@@ -30,20 +30,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public abstract class AbstractEntity implements Serializable {
-	
-	private static final long serialVersionUID = -8100624481945439795L;
 
-	@Temporal(TemporalType.DATE)
+    private static final long serialVersionUID = -8100624481945439795L;
+
+    @Temporal(TemporalType.DATE)
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreatedDate
     @JsonIgnore
     private Date createdAt;
-    
+
     @Temporal(TemporalType.DATE)
     @Column(name = "updated_at", nullable = false)
     @LastModifiedDate
     @JsonIgnore
     private Date updatedAt;
-	
+
 
 }
