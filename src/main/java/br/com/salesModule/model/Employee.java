@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name="employee")
 public class Employee extends AbstractEntity {
 
     private static final long serialVersionUID = -5621324285110469600L;
