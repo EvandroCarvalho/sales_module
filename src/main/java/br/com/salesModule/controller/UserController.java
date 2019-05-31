@@ -1,19 +1,5 @@
 package br.com.salesModule.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import br.com.salesModule.error.ItemsNotFound;
 import br.com.salesModule.model.User;
 import br.com.salesModule.repository.UserRepository;
@@ -21,6 +7,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @Api(value = "Endpoints to manage user")
@@ -78,9 +70,9 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping(path = "/{username}")
+    @GetMapping(path = "/find-by-username/{username}")
     @ApiOperation(value = "Find user by username", response = User.class)
-    public ResponseEntity<User> findById(@PathVariable(value = "username") String username) throws ItemsNotFound {
+    public ResponseEntity<User> findByUsername(@PathVariable(value = "username") String username) throws ItemsNotFound {
         User user = userRepository
                 .findByUsername(username)
                 .orElseThrow(() -> new ItemsNotFound("Not found by username: " + username));
