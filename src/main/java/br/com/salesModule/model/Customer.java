@@ -27,31 +27,31 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="customer")
+@Table(name = "customer")
 public class Customer extends AbstractEntity {
 
-	private static final long serialVersionUID = -5546297725248514790L;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	@Column(name = "name")
-	private String name;
-	@NotNull
-	@NotBlank
-	@Column(name = "cpf")
-	private String cpf;
-	@Column(name = "phone")
-	private String phone;
-	@Column(name = "address")
-	private String address;
-	@Column(name = "email")
-	private String email;
-	@Column(name = "birth_date")
-	@JsonDeserialize(using=LocalDataDeserializer.class)
-	private LocalDate birthDate;
-	@Column(name = "salary")
-	private BigDecimal salary;
-	@Column(name = "gender")
-	private Character gender;
+    private static final long serialVersionUID = -5546297725248514790L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column(name = "name")
+    private String name;
+    @NotNull
+    @NotBlank
+    @Column(name = "cpf")
+    private String cpf;
+    @Column(name = "phone")
+    private String phone;
+    @Column(name = "address")
+    private String address;
+    @Column(name = "email")
+    private String email;
+    @Column(name = "birth_date")
+    @JsonDeserialize(using = LocalDataDeserializer.class)
+    private LocalDate birthDate;
+    @Column(name = "salary")
+    private BigDecimal salary;
+    @Column(name = "gender")
+    private Character gender;
 }
