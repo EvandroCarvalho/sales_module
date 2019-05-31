@@ -23,7 +23,7 @@ public class Sales extends AbstractEntity {
 
     @Builder
     public Sales(Long id, @NotNull Long itemId, @NotNull @NotEmpty String itemName, @NotNull BigDecimal sellPrice,
-                 @NotNull Long invoice, Customer customer, Employee employee, Date createAt, Date updateAt) {
+                 @NotNull Long invoice, Customer customer, Employee employee, String username, Date createAt, Date updateAt) {
         super(createAt, updateAt);
         this.id = id;
         this.itemId = itemId;
@@ -32,6 +32,7 @@ public class Sales extends AbstractEntity {
         this.invoice = invoice;
         this.customer = customer;
         this.employee = employee;
+        this.username = username;
     }
 
     @Id
@@ -71,8 +72,8 @@ public class Sales extends AbstractEntity {
     @ManyToOne
     private Employee employee;
 
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "username")
     @ManyToOne
-    private Employee user;
+    private String username;
 
 }
