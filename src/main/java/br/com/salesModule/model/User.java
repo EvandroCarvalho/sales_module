@@ -26,7 +26,7 @@ public class User extends AbstractEntity{
 	private static final long serialVersionUID = -2425712806688747822L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@NotNull
 	@Column(name = "username")
