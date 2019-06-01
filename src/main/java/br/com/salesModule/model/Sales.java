@@ -72,7 +72,7 @@ public class Sales extends AbstractEntity {
     @ManyToOne
     private Employee employee;
 
-    @JoinColumn(name = "userLogged")
+    @JoinColumn(name = "user_logged")
     @ManyToOne
     private User userLogged;
 
