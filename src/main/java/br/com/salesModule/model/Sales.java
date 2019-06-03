@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 
 @Data
@@ -22,12 +23,11 @@ public class Sales extends AbstractEntity {
 
 
     @Builder
-    public Sales(Long id, @NotNull Long itemId, @NotNull @NotEmpty String itemName, @NotNull BigDecimal sellPrice,
-                 @NotNull Long invoice, Customer customer, Employee employee, User userLogged, Date createAt, Date updateAt) {
+    public Sales(Long id, @NotNull Product itemId, @NotNull BigDecimal sellPrice,
+                 @NotNull Long invoice, Customer customer, Employee employee, User userLogged, Calendar createAt, Calendar updateAt) {
         super(createAt, updateAt);
         this.id = id;
         this.itemId = itemId;
-        this.itemName = itemName;
         this.sellPrice = sellPrice;
         this.invoice = invoice;
         this.customer = customer;
@@ -42,12 +42,8 @@ public class Sales extends AbstractEntity {
 
     @Column(name = "item_id")
     @NotNull
-    private Long itemId;
-
-    @Column(name = "item_name")
-    @NotNull
-    @NotEmpty
-    private String itemName;
+    @ManyToOne
+    private Product itemId;
 
     @Column(name = "sell_price")
     @NotNull

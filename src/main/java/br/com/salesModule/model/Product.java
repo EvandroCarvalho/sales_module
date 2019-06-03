@@ -16,25 +16,24 @@ import java.math.BigDecimal;
 @Table(name = "product")
 public class Product extends AbstractEntity {
 
-    private static final long serialVersionUID = -947277822634843981L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+	private static final long serialVersionUID = -947277822634843981L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id;
 
-    @NotNull
-    @NotBlank
-    @Column(name = "name")
-    private String name;
+	@NotNull
+	@NotBlank
+	@Column(name = "name")
+	private String name;
 
-    @Column(name = "brand")
-    private String brand;
+	@Column(name = "brand")
+	private String brand;
 
-    @Column(name = "cost_price")
-    private BigDecimal price;
+	@Column(name = "cost_price")
+	private BigDecimal price;
 
-    @Column(name = "sell_price")
-    private BigDecimal sellPrice;
-
+	@Column(name = "sell_price")
+	private BigDecimal sellPrice;
 
 }

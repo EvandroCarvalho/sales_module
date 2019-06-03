@@ -1,6 +1,8 @@
 package br.com.salesModule.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -33,17 +35,17 @@ public abstract class AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -8100624481945439795L;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreatedDate
     @JsonIgnore
-    private Date createdAt;
+    private Calendar createdAt;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_at", nullable = false)
     @LastModifiedDate
     @JsonIgnore
-    private Date updatedAt;
+    private Calendar updatedAt;
 
 
 }
