@@ -40,8 +40,7 @@ public class Sales extends AbstractEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "item_id")
-    @NotNull
+    @JoinColumn(name = "item_id")
     @ManyToOne
     private Product itemId;
 
