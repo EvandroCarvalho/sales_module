@@ -1,10 +1,11 @@
 package br.com.salesModule.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,6 +35,7 @@ public class CustomerController {
     private final CustomerRepository customerRepository;
 
     @PostMapping
+    @CacheEvict(value = "customerInCache", allEntries = true)
     @ApiOperation(value = "Save customer", response = Customer.class)
     public ResponseEntity<Customer> save(@RequestBody Customer custumerRequest) {
         log.info("Request: " + custumerRequest.toString());
@@ -42,6 +44,7 @@ public class CustomerController {
     }
 
     @PutMapping
+    @CacheEvict(value = "customerInCache", allEntries = true)
     @ApiOperation(value = "Update values of an attribute", response = Customer.class)
     public ResponseEntity<Customer> update(@RequestBody Customer customerRequest) {
         Customer customer = customerRepository.save(customerRequest);
@@ -49,6 +52,7 @@ public class CustomerController {
     }
 
     @DeleteMapping(path = "/{id}")
+    @CacheEvict(value = "customerInCache", allEntries = true)
     @ApiOperation(value = "Delete item available", response = ResponseEntity.class)
     public ResponseEntity<HttpStatus> delete(@PathVariable(value = "id") Long id) throws ItemsNotFound {
         if (customerRepository.existsById(id)) {
@@ -60,9 +64,10 @@ public class CustomerController {
     }
 
     @GetMapping
+    @Cacheable(value = "customerInCache")
     @ApiOperation(value = "List all customer available, paged and/or ordered", response = Customer[].class)
-    public ResponseEntity<Page<Customer>> listAll(Pageable page) throws ItemsNotFound {
-        Page<Customer> listCustomer = customerRepository.findAll(page);
+    public ResponseEntity<List<Customer>> listAll() throws ItemsNotFound {
+    	List<Customer> listCustomer = customerRepository.findAll();
         if (listCustomer.isEmpty()) {
             throw new ItemsNotFound("Not found customers");
         } else {

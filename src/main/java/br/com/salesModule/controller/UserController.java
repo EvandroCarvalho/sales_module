@@ -3,6 +3,8 @@ package br.com.salesModule.controller;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -35,6 +37,7 @@ public class UserController {
     private final UserRepository userRepository;
 
     @PostMapping
+    @CacheEvict(value = "userInCache", allEntries = true)
     @ApiOperation(value = "Save user", response = User.class)
     public ResponseEntity<User> save(@RequestBody User userRequest) {
         log.info("Request: " + userRequest.toString());
@@ -43,6 +46,7 @@ public class UserController {
     }
 
     @PutMapping
+    @CacheEvict(value = "userInCache", allEntries = true)
     @ApiOperation(value = "Update values of an attribute", response = User.class)
     public ResponseEntity<User> update(@RequestBody User userRequest) {
         User user = userRepository.save(userRequest);
@@ -50,6 +54,7 @@ public class UserController {
     }
 
     @DeleteMapping(path = "/{id}")
+    @CacheEvict(value = "userInCache", allEntries = true)
     @ApiOperation(value = "Delete item available", response = ResponseEntity.class)
     public ResponseEntity<HttpStatus> delete(@PathVariable(value = "id") Long id) throws ItemsNotFound {
         if (userRepository.existsById(id)) {
@@ -61,6 +66,7 @@ public class UserController {
     }
 
     @GetMapping
+    @Cacheable(value = "userInCache")
     @ApiOperation(value = "List all user available, paged and/or ordered", response = User[].class)
     public ResponseEntity<Page<User>> listAll(Pageable page) throws ItemsNotFound {
         Page<User> listUser = userRepository.findAll(page);

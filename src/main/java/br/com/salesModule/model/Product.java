@@ -18,7 +18,7 @@ public class Product extends AbstractEntity {
 
 	private static final long serialVersionUID = -947277822634843981L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private Long id;
 

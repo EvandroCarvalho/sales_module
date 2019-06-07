@@ -3,6 +3,8 @@ package br.com.salesModule.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -32,6 +34,7 @@ public class ProductController {
     private final ProductRepository productRepository;
 
     @GetMapping
+    @Cacheable(value = "productInCache")
     @ApiOperation(value = "List all employees available, paged and/or ordered", response = Product[].class)
     public ResponseEntity<Page<Product>> findAll(Pageable page) throws ItemsNotFound {
         Page<Product> products = productRepository.findAll(page);
@@ -43,6 +46,7 @@ public class ProductController {
     }
 
     @PostMapping
+    @CacheEvict(value = "productInCache", allEntries = true)
     @ApiOperation(value = "Create save product in database", response = Product.class)
     public ResponseEntity<Product> save(@RequestBody Product product) {
         Product prod = productRepository.save(product);
@@ -50,6 +54,7 @@ public class ProductController {
     }
 
     @PutMapping
+    @CacheEvict(value = "productInCache", allEntries = true)
     @ApiOperation(value = "Update values of an attribute", response = Product.class)
     public ResponseEntity<Product> update(@RequestBody Product product) {
         Product prod = productRepository.save(product);
@@ -57,6 +62,7 @@ public class ProductController {
     }
 
     @DeleteMapping(path = "/{id}")
+    @CacheEvict(value = "productInCache", allEntries = true)
     @ApiOperation(value = "Remove item available in database", response = ResponseEntity.class)
     public ResponseEntity<HttpStatus> delete(@PathVariable(value = "id") Long id) throws ItemsNotFound {
         if (productRepository.existsById(id)) {

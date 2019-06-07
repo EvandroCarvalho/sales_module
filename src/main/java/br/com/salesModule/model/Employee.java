@@ -18,7 +18,7 @@ public class Employee extends AbstractEntity {
     private static final long serialVersionUID = -5621324285110469600L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(name = "name")
     private String name;

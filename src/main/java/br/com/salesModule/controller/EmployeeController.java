@@ -3,6 +3,8 @@ package br.com.salesModule.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -43,6 +45,7 @@ public class EmployeeController {
 	}
 
 	@PostMapping
+	@CacheEvict(value = "employeeInCache", allEntries = true)
 	@ApiOperation(value = "Save employee", response = Employee.class)
 	public ResponseEntity<Employee> save(@RequestBody Employee employeeRequest) {
 		Employee employee = employeeRepository.save(employeeRequest);
@@ -50,6 +53,7 @@ public class EmployeeController {
 	}
 
 	@PutMapping
+	@CacheEvict(value = "employeeInCache", allEntries = true)
 	@ApiOperation(value = "Update values of an attribute", response = Employee.class)
 	public ResponseEntity<Employee> update(@RequestBody Employee employeeRequest) {
 		Employee employee = employeeRepository.save(employeeRequest);
@@ -57,6 +61,7 @@ public class EmployeeController {
 	}
 
 	@DeleteMapping(path = "/{id}")
+	@CacheEvict(value = "employeeInCache", allEntries = true)
 	@ApiOperation(value = "Remove item available in database", response = ResponseEntity.class)
 	public ResponseEntity<HttpStatus> delete(@PathVariable(value = "id") Long id) {
 		if (employeeRepository.existsById(id)) {
@@ -68,6 +73,7 @@ public class EmployeeController {
 	}
 
 	@GetMapping
+	@Cacheable(value = "employeeInCache")
 	@ApiOperation(value = "List all employees available, paged and/or ordered", response = Employee.class)
 	public ResponseEntity<Page<Employee>> listAll(Pageable page) throws ItemsNotFound {
 		Page<Employee> listEmployee = employeeRepository.findAll(page);
